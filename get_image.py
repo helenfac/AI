@@ -5,6 +5,7 @@ import urllib.parse
 from datetime import datetime
 import os
 from pathlib import Path
+import platform
 
 # Sidebar with help link (local help.html)
 st.sidebar.markdown(
@@ -12,7 +13,7 @@ st.sidebar.markdown(
     unsafe_allow_html=True
 )
 
-st.title("Pollinations Image Generator")
+st.title("Image Generator")
 
 def load_params_from_file(param_file):
     params = {}
@@ -25,7 +26,15 @@ def load_params_from_file(param_file):
 
 # Option to load parameters from a txt file
 with st.expander("Load parameters from saved file"):
-    default_param_folder = str(Path.home() / "Pictures")
+    # Default to Windows Pictures folder unless on Mac
+    if platform.system() == "Darwin":
+        default_param_folder = str(Path.home() / "Pictures")
+    else:
+        default_param_folder = str(Path.home() / "Pictures")
+        # On some Windows setups, Pictures may be under "My Pictures"
+        if not os.path.isdir(default_param_folder):
+            default_param_folder = str(Path.home() / "My Pictures")
+
     param_folder = st.text_input(
         "Folder containing parameter .txt files",
         value=default_param_folder  # Default to Pictures folder
@@ -158,8 +167,14 @@ def save_image_and_params(folder_path):
     return filename, param_filename
 
 if st.session_state.image_bytes:
-    # Default to Pictures folder
-    default_folder = str(Path.home() / "Pictures")
+    # Default to Windows Pictures folder unless on Mac
+    if platform.system() == "Darwin":
+        default_folder = str(Path.home() / "Pictures")
+    else:
+        default_folder = str(Path.home() / "Pictures")
+        if not os.path.isdir(default_folder):
+            default_folder = str(Path.home() / "My Pictures")
+
     folder = st.text_input("Folder to save image and parameters", value=default_folder)
     if st.button("Save Image to Selected Folder"):
         if not os.path.isdir(folder):
