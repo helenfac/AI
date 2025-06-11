@@ -82,7 +82,17 @@ prompt = st.text_area(
 )
 width = st.number_input("Width", min_value=256, max_value=2048, value=int(st.session_state.get("width", 1024)), step=64)
 height = st.number_input("Height", min_value=256, max_value=2048, value=int(st.session_state.get("height", 1024)), step=64)
-seed_input = st.text_input("Seed (leave blank for random)", value=st.session_state.get("seed_input", ""))  # Accept blank or number
+
+seed_col1, seed_col2 = st.columns([3, 1])
+with seed_col1:
+    seed_input = st.text_input(
+        "Seed (leave blank for random)",
+        value=st.session_state.get("seed_input", "")
+    )
+with seed_col2:
+    if st.button("Clear Seed"):
+        st.session_state.seed_input = ""
+        seed_input = ""
 
 # Model selection: Turbo or Flux
 model = st.selectbox(
