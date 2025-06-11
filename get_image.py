@@ -76,10 +76,17 @@ with st.expander("Load parameters from saved file"):
             st.error("File not found or invalid path.")
 
 # Streamlit input widgets for parameters, using session_state if available
-prompt = st.text_area(
-    "Prompt",
-    value=st.session_state.get("prompt", "in the style of a 19th century painting, a young woman holding a small bunch of spring flowers, standing in a field of grass")
-)
+prompt_col1, prompt_col2 = st.columns([3, 1])
+with prompt_col1:
+    prompt = st.text_area(
+        "Prompt",
+        value=st.session_state.get("prompt", "in the style of a 19th century painting, a young woman holding a small bunch of spring flowers, standing in a field of grass")
+    )
+with prompt_col2:
+    if st.button("Clear Prompt"):
+        st.session_state.prompt = ""
+        prompt = ""
+
 width = st.number_input("Width", min_value=256, max_value=2048, value=int(st.session_state.get("width", 1024)), step=64)
 height = st.number_input("Height", min_value=256, max_value=2048, value=int(st.session_state.get("height", 1024)), step=64)
 
