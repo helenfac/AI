@@ -127,16 +127,19 @@ if st.button("Generate Image"):
     with st.spinner("Generating image..."):
         encoded_prompt = urllib.parse.quote(prompt)
         image_url = (
-            f"https://pollinations.ai/p/{encoded_prompt}"
+            f"https://xpollinations.ai/p/{encoded_prompt}"
             f"?width={width}&height={height}&seed={seed}&model={model}&remove_logo={str(remove_logo).lower()}"
         )
-        response = requests.get(image_url)
-        if response.status_code == 200:
-            st.session_state.image_bytes = response.content
-            st.image(response.content, caption="Generated Image")
-        else:
-            st.session_state.image_bytes = None
-            st.error("Failed to generate image.")
+        # Comment out the actual API call for testing
+        # response = requests.get(image_url)
+        # if response.status_code == 200:
+        #     st.session_state.image_bytes = response.content
+        #     st.image(response.content, caption="Generated Image")
+        # else:
+        #     st.session_state.image_bytes = None
+        #     st.error("Failed to generate image.")
+        st.session_state.image_bytes = b""  # Dummy bytes for testing
+        st.info(f"[TEST MODE] Would request: {image_url}")
 
 def save_image_and_params(folder_path):
     now = datetime.now().strftime("%Y%m%d_%H%M%S")
