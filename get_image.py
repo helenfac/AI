@@ -7,6 +7,27 @@ import os
 from pathlib import Path
 import platform
 
+# --- Check for parameters.txt files at startup and create one if none exist ---
+default_param_folder = str(Path.home() / "Pictures")
+if not os.path.isdir(default_param_folder):
+    os.makedirs(default_param_folder, exist_ok=True)
+
+param_files = [f for f in os.listdir(default_param_folder) if f.endswith(".txt")]
+if not param_files:
+    # Default values (can be adjusted as needed)
+    default_params = {
+        "Prompt": "in the style of a 19th century painting, a young woman holding a small bunch of spring flowers, standing in a field of grass",
+        "Width": 1024,
+        "Height": 1024,
+        "Seed": "",
+        "Model": "flux",
+        "Remove logo": True
+    }
+    param_path = os.path.join(default_param_folder, "parameters.txt")
+    with open(param_path, "w") as f:
+        for k, v in default_params.items():
+            f.write(f"{k}: {v}\n")
+
 # Sidebar with help link (local help.html)
 st.sidebar.markdown(
     '[Help & Documentation](help.html)',
@@ -136,16 +157,19 @@ if st.button("Generate Image"):
     with st.spinner("Generating image..."):
         encoded_prompt = urllib.parse.quote(prompt)
         image_url = (
-            f"https://pollinations.ai/p/{encoded_prompt}"
+            f"https://xpollinations.ai/p/{encoded_prompt}"
             f"?width={width}&height={height}&seed={seed}&model={model}&remove_logo={str(remove_logo).lower()}"
         )
-        response = requests.get(image_url)
-        if response.status_code == 200:
-            st.session_state.image_bytes = response.content
-            st.image(response.content, caption="Generated Image")
-        else:
-            st.session_state.image_bytes = None
-            st.error("Failed to generate image.")
+        # Comment out the actual API call for testing
+        # response = requests.get(image_url)
+        # if response.status_code == 200:
+        #     st.session_state.image_bytes = response.content
+        #     st.image(response.content, caption="Generated Image")
+        # else:
+        #     st.session_state.image_bytes = None
+        #     st.error("Failed to generate image.")
+        st.session_state.image_bytes = b"1"  # Dummy bytes for testing
+        st.info(f"[TEST MODE] Would request: {image_url}")
 
 def save_image_and_params(folder_path):
     now = datetime.now().strftime("%Y%m%d_%H%M%S")
