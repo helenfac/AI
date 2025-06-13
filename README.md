@@ -1,4 +1,4 @@
-# Pollinations Image Generator
+# Image Generator
 
 This project includes `get_image.py`, a Streamlit app for generating images using the [Pollinations API](https://pollinations.ai/). The app allows you to:
 
