@@ -16,7 +16,7 @@ param_files = [f for f in os.listdir(default_param_folder) if f.endswith(".txt")
 if not param_files:
     # Default values (can be adjusted as needed)
     default_params = {
-        "Prompt": "in the style of a 19th century painting, a young woman holding a small bunch of spring flowers, standing in a field of grass",
+        "Prompt": "in the style of a drawing in pencil and pale coloured pastels, a young woman holding a small bunch of spring flowers, standing in a field of grass",
         "Width": 1024,
         "Height": 1024,
         "Seed": "",
