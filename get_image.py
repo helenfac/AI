@@ -110,7 +110,7 @@ prompt_col1, prompt_col2 = st.columns([3, 1])
 with prompt_col1:
     prompt = st.text_area(
         "Prompt",
-        value=st.session_state.get("prompt", "in the style of a 19th century painting, a young woman holding a small bunch of spring flowers, standing in a field of grass")
+        value=st.session_state.get("prompt", "in the style of a drawing in pencil and pale coloured pastels, a young woman holding a small bunch of spring flowers, standing in a field of grass")
     )
 with prompt_col2:
     if st.button("Clear Prompt"):
